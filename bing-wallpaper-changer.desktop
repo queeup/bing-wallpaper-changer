@@ -2,9 +2,9 @@
 Type=Application
 Name[tr_TR]=Bing Duvar Kağıdı Değiştirici
 Name=Bing Wallpaper Changer
-Comment[tr_TR]=Duvar kağıdınızı bing.com resimleriyle otomatik olarak değiştirir
-Comment=It changes your wallpaper automatically from bing.com
-Exec=sh -c "$HOME/.local/bin/bing-wallpaper-changer.py &"
+Comment[tr_TR]=Gnome masaüstü duvar kağıdınızı bing.com resimleriyle otomatik olarak değiştirir
+Comment=It changes your gnome desktop wallpaper automatically from bing.com
+Exec=sh -c "$HOME/.local/bin/bing-wallpaper-changer.py --daemon &"
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true

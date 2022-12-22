@@ -1,0 +1,11 @@
+[Unit]
+Description=%n
+
+[Timer]
+OnActiveSec=0
+# Bing wallpapers are updated at 8AM UTC everyday
+OnCalendar=08:02 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

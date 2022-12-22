@@ -1,0 +1,14 @@
+[Unit]
+Description=It changes your gnome desktop wallpaper automatically from bing.com
+After=network-online.target
+#Requires=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "$$(command -v bing-wallpaper-changer.py) --once"
+
+[Install]
+# https://unix.stackexchange.com/questions/251211/why-doesnt-my-systemd-user-unit-start-at-boot
+# systemctl --user list-units --type=target
+WantedBy=graphical-session.target
