@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
 # https://stackoverflow.com/a/16844327/11391913
-RCol='\e[0m'        # Text Reset
-BRed='\e[1;31m';    # Bold & Red
-Bold='\e[1m';       # Bold
-Underline='\e[4m';  # Underline
+readonly RCol='\e[0m'        # Text Reset
+readonly BRed='\e[1;31m';    # Bold & Red
+readonly Bold='\e[1m';       # Bold
+readonly Underline='\e[4m';  # Underline
 
 if [ "$(id -u)" -eq 0 ]; then
     printf "Please run as ${BRed}user${RCol} not as root.\n" >&2;
@@ -12,7 +12,9 @@ if [ "$(id -u)" -eq 0 ]; then
 fi
 
 printf \
-"1. ${BRed}systemd${RCol} (recomended):
+"${Bold}Bing wallpaper changer installer${RCol}:
+
+1. ${BRed}systemd${RCol} (recomended):
    ${Underline}No python module dependancy needed${RCol}. Install script is
    going to install systemd service and timer to ${HOME}/.config/systemd/user/
    bing-wallpaper-changer.py will be started by
@@ -24,7 +26,12 @@ printf \
    bing-wallpaper-changer.py will be started by
    ${HOME}/.config/autostart/bing-wallpaper-changer.desktop.
 
-Please select install option: [1/2] " >&2;
+3. ${BRed}uninstall${RCol}:
+   Stops timer, service, daemon and then uninstall downloaded files except wallpapers.
+   Downloaded wallpapers are not going to erase. You can find them in
+   ${HOME}/.local/share/backgrounds/Bing Wallpapers/ directory.
+
+Please select an option: [1/2/3] " >&2;
 
 read -r option
 #printf '%s\n' "$option"
@@ -95,6 +102,18 @@ case "$option" in
         chmod +x "${HOME}"/.local/bin/bing-wallpaper-changer.py
         "${HOME}"/.local/bin/bing-wallpaper-changer.py --daemon --quiet &
 
+        printf "Done.\n"
+        ;;
+    3)
+        printf "${BRed}uninstall${RCol} selected:\n"
+        printf "Stoping daemon & service...\n"
+        kill -TERM $(pgrep -f '^python.*bing-wallpaper-changer.py') >/dev/null 2>&1
+        systemctl --quiet --user disable --now bing-wallpaper-changer.timer >/dev/null 2>&1
+        printf "Uninstalling bing-wallpaper-changer...\n"
+        rm "${HOME}"/.local/bin/bing-wallpaper-changer.py \
+           "${HOME}"/.config/autostart/bing-wallpaper-changer.* \
+           "${HOME}"/.config/systemd/user/bing-wallpaper-changer.* >/dev/null 2>&1
+        systemctl --user daemon-reload
         printf "Done.\n"
         ;;
     *)

@@ -24,5 +24,9 @@ sh -c "$(curl -fsSL https://github.com/queeup/bing-wallpaper-changer/raw/main/in
 ### With wget
 
 ```bash
-sh -c "$(wget --no-verbose https://github.com/queeup/bing-wallpaper-changer/raw/main/install.sh -O -)"
+sh -c "$(wget -nv https://github.com/queeup/bing-wallpaper-changer/raw/main/install.sh -O -)"
 ```
+
+## Uninstall
+
+Run [install](#install) script and then choose option **3**.
