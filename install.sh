@@ -7,7 +7,7 @@ readonly Bold='\e[1m';       # Bold
 readonly Underline='\e[4m';  # Underline
 
 if [ "$(id -u)" -eq 0 ]; then
-    printf "Please run as ${BRed}user${RCol} not as root.\n" >&2;
+    printf "Please run as ${BRed}user${RCol} not as root.\n"
     exit 1;
 fi
 
@@ -31,16 +31,16 @@ printf \
    Downloaded wallpapers are not going to erase. You can find them in
    ${HOME}/.local/share/backgrounds/Bing Wallpapers/ directory.
 
-Please select an option: [1/2/3] " >&2;
+Please select an option: [1/2/3] "
 
 read -r option
-#printf '%s\n' "$option"
 
 case "$option" in
     1)
-        printf "${BRed}systemd${RCol} install selected: \n"
-        printf "Creating ${HOME}/.local/bin, ${HOME}/.config/systemd/user and\n"
-        printf "${HOME}/.local/share/backgrounds/Bing Wallpapers/ directories.\n"
+        printf "%b\n" \
+               "${BRed}systemd${RCol} install selected:" \
+               "Creating ${HOME}/.local/bin, ${HOME}/.config/systemd/user and" \
+               "${HOME}/.local/share/backgrounds/Bing Wallpapers/ directories."
         mkdir -p "${HOME}"/.local/bin \
                  "${HOME}"/.config/systemd/user \
                  "${HOME}/.local/share/backgrounds/Bing Wallpapers/"
@@ -71,16 +71,17 @@ case "$option" in
     2)
         # https://unix.stackexchange.com/a/80632
         if ! python3 -c 'import schedule' >/dev/null 2>&1; then
-            printf "\n${BRed}schedule${RCol} %s\n%s\n%s\n" \
-            "python module is not found in your system." \
-            "Please install manually to your system and then" \
-            "retry this install script.";
+            printf "%b\n" \
+                   "${BRed}schedule${RCol} python module is not found in your system." \
+                   "Please install manually to your system and then" \
+                   "retry this install script."
             exit 1;
         fi
 
-        printf "${BRed}standalone${RCol} install selected:\n"
-        printf "Creating ${HOME}/.local/bin, ${HOME}/.config/autostart and\n"
-        printf "${HOME}/.local/share/backgrounds/Bing Wallpapers/ directories.\n"
+        printf "%b\n" \
+               "${BRed}standalone${RCol} install selected:" \
+               "Creating ${HOME}/.local/bin, ${HOME}/.config/autostart and" \
+               "${HOME}/.local/share/backgrounds/Bing Wallpapers/ directories."
         mkdir -p "${HOME}"/.local/bin \
                  "${HOME}"/.config/autostart \
                  "${HOME}/.local/share/backgrounds/Bing Wallpapers/"
@@ -105,8 +106,9 @@ case "$option" in
         printf "Done.\n"
         ;;
     3)
-        printf "${BRed}uninstall${RCol} selected:\n"
-        printf "Stoping daemon & service...\n"
+        printf "%b\n" \
+               "${BRed}uninstall${RCol} selected:" \
+               "Stoping daemon & service..."
         kill -TERM $(pgrep -f '^python.*bing-wallpaper-changer.py') >/dev/null 2>&1
         systemctl --quiet --user disable --now bing-wallpaper-changer.timer >/dev/null 2>&1
         printf "Uninstalling bing-wallpaper-changer...\n"
